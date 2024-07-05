@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Iden.Entities
 {
@@ -11,9 +12,10 @@ namespace Iden.Entities
         [Required]
         public string firstName { get; set; }
         [Required]
-        private string lastName { get; set; }
+        public string lastName { get; set; }
         [Required]
         [EmailAddress]
+        [JsonIgnore]
         public string email { get; set; }
         [Required]
         public string password { get; set; }
