@@ -1,0 +1,24 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
+namespace Iden.Entities
+{
+    public class User : IdentityUser
+    {
+        [Key]
+        [Required]
+        public string userId { get; set; }
+        [Required]
+        public string firstName { get; set; }
+        [Required]
+        private string lastName { get; set; }
+        [Required]
+        [EmailAddress]
+        public string email { get; set; }
+        [Required]
+        public string password { get; set; }
+        public string phone { get; set; }
+        public ICollection<UserOrganisation> UserOrganisations { get; set; }
+
+    }
+}
