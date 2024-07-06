@@ -22,24 +22,18 @@ namespace Iden.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserRegistrationReqest request)
         {
+            if (!ModelState.IsValid)
+            {
+                var validationErrors = ValidationHelper.GetValidationErrors(ModelState, typeof(UserRegistrationReqest));
+
+                return UnprocessableEntity(new
+                {
+                    errors = validationErrors
+                });
+            }
+
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    var validationErrors = ModelState.Keys
-                     .SelectMany(key => ModelState[key].Errors.Select(x => new ValidationError
-                     {
-                         field = key,
-                         message = x.ErrorMessage
-                     }))
-                     .ToList();
-
-                    return UnprocessableEntity(new
-                    {
-                        errors = validationErrors
-                    });
-                }
-
                 var appUser = new User
                 {
                     userId = Guid.NewGuid().ToString(),
