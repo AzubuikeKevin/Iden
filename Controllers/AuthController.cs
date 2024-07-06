@@ -26,7 +26,18 @@ namespace Iden.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    var validationErrors = ModelState.Keys
+                     .SelectMany(key => ModelState[key].Errors.Select(x => new ValidationError
+                     {
+                         field = key,
+                         message = x.ErrorMessage
+                     }))
+                     .ToList();
+
+                    return UnprocessableEntity(new
+                    {
+                        errors = validationErrors
+                    });
                 }
 
                 var appUser = new User
