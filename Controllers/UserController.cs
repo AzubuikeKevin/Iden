@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iden.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/")]
     [ApiController]
     public class UserController : ControllerBase

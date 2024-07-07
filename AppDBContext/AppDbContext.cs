@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Iden.AppDBContext
 {
@@ -16,6 +17,9 @@ namespace Iden.AppDBContext
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<User>()
+                .HasIndex(u => u.email)
+                .IsUnique();
 
             builder.Entity<UserOrganisation>()
                  .HasKey(uo => new { uo.userId, uo.orgId });

@@ -3,7 +3,7 @@ using Iden.Entities;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
-namespace Iden
+namespace Iden.Helper
 {
     public static class ValidationHelper
     {

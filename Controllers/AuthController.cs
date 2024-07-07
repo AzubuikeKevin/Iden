@@ -1,9 +1,11 @@
 ﻿using Iden.AppDBContext;
 using Iden.DTOs;
 using Iden.Entities;
+using Iden.Helper;
 using Iden.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.Serialization;
 
 namespace Iden.Controllers
 {
@@ -16,9 +18,9 @@ namespace Iden.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AuthController(UserManager<User> userManager, 
-                              AppDbContext context, 
-                              SignInManager<User> signInManager, 
+        public AuthController(UserManager<User> userManager,
+                              AppDbContext context,
+                              SignInManager<User> signInManager,
                               ITokenService tokenService)
         {
             _userManager = userManager;
@@ -42,16 +44,27 @@ namespace Iden.Controllers
 
             try
             {
-                // hash the password
+                var existingUser = await _userManager.FindByEmailAsync(request.email);
+                if (existingUser != null)
+                {
+                    return BadRequest(new
+                    {
+                        status = "Bad request",
+                        message = "Email already in use",
+                        statusCode = 400
+                    });
+                }
+                string randomText = StringHelper.RandomString(2);
+
                 var appUser = new User
                 {
                     userId = Guid.NewGuid().ToString(),
-                    UserName = request.firstName,
+                    UserName = $"{request.firstName}{request.lastName}{randomText}",
                     email = request.email,
                     firstName = request.firstName,
                     lastName = request.lastName,
                     Email = request.email,
-                    password = request.password,
+                    password = "to-be-updated",
                     phone = request.phone
 
                 };
@@ -59,6 +72,10 @@ namespace Iden.Controllers
                 var createdUser = await _userManager.CreateAsync(appUser, request.password);
                 if (createdUser.Succeeded)
                 {
+                    //Ensure password is hashed
+                    appUser.password = _userManager.PasswordHasher.HashPassword(appUser, request.password);
+                    await _userManager.UpdateAsync(appUser);
+
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                     if (roleResult.Succeeded)
                     {

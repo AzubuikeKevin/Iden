@@ -15,7 +15,6 @@ namespace Iden.Entities
         public string lastName { get; set; }
         [Required]
         [EmailAddress]
-        [JsonIgnore]
         public string email { get; set; }
         [Required]
         public string password { get; set; }
