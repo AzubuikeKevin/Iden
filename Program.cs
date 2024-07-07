@@ -22,7 +22,7 @@ builder.Services.AddControllers()
         options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
             "https://httpstatuses.com/404";
     });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
