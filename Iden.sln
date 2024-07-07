@@ -5,7 +5,11 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iden", "Iden.csproj", "{9FD91345-263A-4E4D-85C0-731CD48828B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\IdenText\Tests.csproj", "{D4A32E3C-9D4E-4009-817F-1BE96C236E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "..\IdenText\Tests.csproj", "{D4A32E3C-9D4E-4009-817F-1BE96C236E7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{0172F567-C942-4080-A027-475E0BEEB135}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ITests", "ITests", "{FD1B0677-85A4-4F70-BF01-CC0D56CBAEC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FD91345-263A-4E4D-85C0-731CD48828B2} = {0172F567-C942-4080-A027-475E0BEEB135}
+		{D4A32E3C-9D4E-4009-817F-1BE96C236E7D} = {FD1B0677-85A4-4F70-BF01-CC0D56CBAEC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA892662-A3EA-41A2-ABB1-838EB24A7A65}
