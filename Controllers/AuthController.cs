@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 
 namespace Iden.Controllers
 {
-    [Route("api/auth")]
+    [Route("auth/")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -139,7 +139,7 @@ namespace Iden.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginRequest request)
+        public async Task<IActionResult> Login([FromBody]UserLoginRequest request)
         {
             if (!ModelState.IsValid)
             {

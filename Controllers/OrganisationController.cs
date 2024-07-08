@@ -86,6 +86,35 @@ namespace Iden.Controllers
             }
         }
 
+        [HttpGet("organisations/:orgId")]
+        public async Task<IActionResult> GetOrganisationById(string orgId)
+        {
+            var organisation = await _context.Organization.FindAsync(orgId);
+
+            if (organisation == null)
+            {
+                return NotFound(new
+                {
+                    status = "fail",
+                    message = "Organisation not found"
+                });
+            }
+
+            var response = new
+            {
+                status = "success",
+                message = "Organisation retrieved successfully",
+                data = new
+                {
+                    orgId = organisation.orgId,
+                    name = organisation.name,
+                    description = organisation.description
+                }
+            };
+
+            return Ok(response);
+        }
+
         [HttpPost("organisations")]
         public async Task<IActionResult> CreateOrganisation([FromBody] CreateOrganisationRequest request)
         {
@@ -157,7 +186,7 @@ namespace Iden.Controllers
             }
         }
 
-        [HttpPost("organisations/{orgId}/users")]
+        [HttpPost("organisations/:orgId/users")]
         public async Task<IActionResult> AddUserToOrganisation(string orgId, [FromBody] AddUserToOrganisationRequest request)
         {
             if (!ModelState.IsValid)
@@ -186,7 +215,7 @@ namespace Iden.Controllers
                 }
 
                 var userId = User.FindFirstValue(ClaimTypes.GivenName);
-                var user = await _userManager.FindByIdAsync(userId);
+                var user = await _userManager.FindByIdAsync(request.userId);
 
                 if (user == null)
                 {

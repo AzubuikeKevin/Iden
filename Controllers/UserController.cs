@@ -17,7 +17,7 @@ namespace Iden.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("users/{id}")]
+        [HttpGet("users/:id")]
         public async Task<IActionResult> GetUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
