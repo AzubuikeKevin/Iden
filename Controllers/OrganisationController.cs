@@ -214,8 +214,7 @@ namespace Iden.Controllers
                     });
                 }
 
-                var userId = User.FindFirstValue(ClaimTypes.GivenName);
-                var user = await _userManager.FindByIdAsync(request.userId);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.userId == request.userId);
 
                 if (user == null)
                 {

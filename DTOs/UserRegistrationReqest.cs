@@ -13,7 +13,6 @@ namespace Iden.DTOs
         public string email { get; set; }
         [Required(ErrorMessage = "Password is required.")]
         public string password { get; set; }
-        [Required(ErrorMessage = "Phone number is required.")]
         public string phone { get; set; }
 
     }

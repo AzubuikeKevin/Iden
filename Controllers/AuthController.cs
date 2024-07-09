@@ -66,7 +66,6 @@ namespace Iden.Controllers
                     Email = request.email,
                     password = "to-be-updated",
                     phone = request.phone
-
                 };
 
                 var createdUser = await _userManager.CreateAsync(appUser, request.password);
@@ -79,21 +78,24 @@ namespace Iden.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                     if (roleResult.Succeeded)
                     {
+                        var orgId = Guid.NewGuid().ToString();
                         var organisation = new Organisation
                         {
-                            orgId = Guid.NewGuid().ToString(),
+                            orgId = orgId,
                             name = $"{request.firstName}'s Organisation",
-                            description = "Auto-generated organisation",
-                            UserOrganisations =
-                            [
-                                new UserOrganisation
-                                {
-                                    User = appUser
-                                }
-                            ]
+                            description = "Auto-generated organisation"
                         };
 
                         _context.Organization.Add(organisation);
+                        await _context.SaveChangesAsync();
+
+                        var userOrganisation = new UserOrganisation
+                        {
+                            userId = appUser.Id, // Use appUser.Id from AspNetUsers table
+                            orgId = orgId // Set orgId to match the newly created organisation's orgId
+                        };
+
+                        _context.UserOrganisation.Add(userOrganisation);
                         await _context.SaveChangesAsync();
 
                         var response = new UserRegistrationResponse
